@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Моно-но аваре: Сад расходящихся тропок — официальный сайт</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ТЁМНОЕ ДЕРЕВО ДЛЯ ФОНА — имитация текстуры с помощью градиентов и повторяющегося линейного шума */
+        body {
+            background-color: #1f150e;
+            background-image: 
+                repeating-linear-gradient(45deg, rgba(60, 40, 25, 0.2) 0px, rgba(60, 40, 25, 0.2) 2px, transparent 2px, transparent 8px),
+                repeating-linear-gradient(135deg, rgba(40, 25, 15, 0.3) 0px, rgba(40, 25, 15, 0.3) 1px, transparent 1px, transparent 12px),
+                radial-gradient(circle at 20% 30%, rgba(100, 70, 40, 0.2) 0%, rgba(30, 20, 12, 0.5) 100%),
+                linear-gradient(112deg, #2b1d12, #1a1109);
+            background-attachment: fixed;
+            font-family: 'Cormorant Garamond', 'Georgia', 'Times New Roman', serif;
+            color: #2c2418;
+            line-height: 1.5;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Шапка с навигацией — стилизация под дерево/пергамент */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #2b2118;
+            background-image: repeating-linear-gradient(45deg, #3f2e1f 0px, #3f2e1f 2px, #2b1f14 2px, #2b1f14 8px);
+            border-bottom: 3px solid #9b7a54;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            padding: 0.8rem 1rem;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            background: #fdf0db;
+            background-image: linear-gradient(to bottom, #fff7e8, #f5e5ca);
+            border-radius: 60px;
+            padding: 0.5rem 1.4rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #4a301c;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1px solid #cbb586;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link:hover {
+            background: #fff3df;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            border-color: #aa7c48;
+            color: #2f1d0e;
+        }
+
+        /* Контейнер — старая бумага (пергамент) с неровными краями и текстурой */
+        .parchment {
+            max-width: 1280px;
+            margin: 2rem auto 2rem auto;
+            background: #fdf4df;
+            background-image: 
+                repeating-linear-gradient(45deg, rgba(200, 170, 120, 0.08) 0px, rgba(200, 170, 120, 0.08) 2px, transparent 2px, transparent 6px),
+                repeating-linear-gradient(135deg, rgba(150, 120, 80, 0.05) 0px, rgba(150, 120, 80, 0.05) 1px, transparent 1px, transparent 8px),
+                radial-gradient(circle at 10% 20%, rgba(230, 210, 170, 0.4) 0%, rgba(210, 180, 140, 0.1) 80%);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px #e2cfaa inset, 0 0 0 2px #b48b54 inset;
+            border-radius: 24px 24px 20px 20px;
+            padding: 2rem 2rem 1.5rem 2rem;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        /* имитация "потёртостей" и следов времени */
+        .parchment::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.08 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.4"/></svg>');
+            background-repeat: repeat;
+            opacity: 0.12;
+            border-radius: inherit;
+        }
+
+        /* деревянные разделители / акценты */
+        .wood-divider {
+            height: 4px;
+            background: repeating-linear-gradient(90deg, #9b6a3c, #9b6a3c 20px, #d4a373 20px, #d4a373 40px);
+            margin: 1.2rem 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 0 #ebd5b0;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        h1 {
+            font-size: 3.3rem;
+            font-weight: 800;
+            color: #4a2c18;
+            text-shadow: 2px 2px 0 rgba(180, 130, 70, 0.25);
+            font-family: 'Playfair Display', 'Georgia', serif;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            border-left: 8px solid #b87c4a;
+            padding-left: 1rem;
+            margin: 2rem 0 1rem 0;
+            color: #5c3c20;
+            font-weight: 700;
+            scroll-margin-top: 90px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #6d4226;
+        }
+
+        .subhead {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #8b6946;
+            margin-bottom: 0.5rem;
+        }
+
+        /* персонажи — карточки на бумаге */
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
+        }
+
+        .character-card {
+            background: #fff9ef;
+            border-radius: 28px;
+            padding: 1.2rem;
+            box-shadow: 0 10px 18px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            border: 1px solid #e9d5b0;
+            text-align: center;
+            backdrop-filter: blur(0px);
+        }
+
+        .character-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 28px rgba(0,0,0,0.15);
+            border-color: #c2a16b;
+        }
+
+        .char-name {
+            font-size: 1.7rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: #5d3a1e;
+        }
+
+        .char-role {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: #e6d5bd;
+            display: inline-block;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            margin: 0.6rem 0;
+            font-weight: 600;
+            color: #4d311b;
+        }
+
+        .char-desc {
+            font-size: 0.9rem;
+            margin-top: 0.8rem;
+            font-style: italic;
+            color: #5a402b;
+        }
+
+        /* USP блок в стиле старого свитка */
+        .usp-block {
+            background: #fef5e6;
+            background-image: linear-gradient(to bottom, #fef3e2, #faeacb);
+            border-radius: 48px 24px 48px 24px;
+            padding: 1.8rem 2rem;
+            margin: 2rem 0;
+            border: 1px solid #dbbf8c;
+            box-shadow: inset 0 0 0 1px #fff8ed, 0 8px 18px rgba(0,0,0,0.1);
+        }
+
+        .usp-block p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.8rem;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        .usp-block strong {
+            font-size: 1.4rem;
+            color: #a56f3a;
+        }
+
+        /* табличка системных требований — пергамент */
+        .specs {
+            background: #f7efdf;
+            border-radius: 24px;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid #cbad7a;
+            box-shadow: inset 0 0 20px rgba(170, 130, 80, 0.1), 0 5px 12px rgba(0,0,0,0.1);
+        }
+
+        .specs table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .specs th, .specs td {
+            text-align: left;
+            padding: 10px 8px;
+            border-bottom: 1px solid #dac294;
+        }
+
+        .specs th {
+            font-weight: 700;
+            width: 35%;
+            color: #5b3a1f;
+        }
+
+        .specs td {
+            color: #2c2418;
+        }
+
+        /* кнопка стим под дерево */
+        .steam-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #2b4c5c;
+            background: linear-gradient(145deg, #2f5568, #1a3c4a);
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #f9efdc;
+            text-decoration: none;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #0f2a34, 0 2px 12px rgba(0,0,0,0.3);
+            font-family: inherit;
+        }
+
+        .steam-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #0f2a34;
+            background: #3e6c82;
+            color: white;
+        }
+
+        .price-tag {
+            background: #e9c68c;
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1.4rem;
+            color: #35220f;
+            margin-left: 0.5rem;
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 2px solid #d6bc8a;
+            font-size: 0.8rem;
+            color: #8f6f48;
+        }
+
+        @media (max-width: 720px) {
+            .parchment {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .steam-button {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+            .usp-block p {
+                flex-direction: column;
+            }
+            .usp-block strong {
+                margin-right: 0;
+            }
+            .nav-link {
+                padding: 0.3rem 1rem;
+                font-size: 0.85rem;
+            }
+            h2 {
+                scroll-margin-top: 110px;
+            }
+        }
+
+        /* для акцентов на дерево */
+        .wood-accent {
+            background: #b48c54;
+            height: 3px;
+            width: 80px;
+            border-radius: 4px;
+            margin: 0.5rem 0 1rem 0;
+        }
+        .inline-icon {
+            font-size: 1.3rem;
+            filter: drop-shadow(0 1px 0 #ecd9b4);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ШАПКА С НАВИГАЦИЕЙ -->
+<div class="nav-bar">
+    <div class="nav-container">
+        <a href="#about" class="nav-link">○ О игре</a>
+        <a href="#characters" class="nav-link">✦ Персонажи</a>
+        <a href="#specs" class="nav-link">⚙ Системные требования</a>
+        <a href="#purchase" class="nav-link">🎮 Купить</a>
+    </div>
+</div>
+
+<div class="parchment">
+    <!-- верхняя часть с названием и кнопкой -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 1rem;">
+        <div>
+            <h1>Моно-но аваре</h1>
+            <div class="subhead">«Сад расходящихся тропок»</div>
+            <div style="font-size: 0.85rem; background: #e9d9bf; display: inline-block; padding: 0.2rem 1rem; border-radius: 40px; margin-top: 0.4rem;">психологический философский триллер</div>
+        </div>
+        <div>
+            <a href="#" class="steam-button" id="steamFakeBtn">🎮 Играть в Steam <span class="price-tag">400₽</span></a>
+        </div>
+    </div>
+    <div class="wood-divider"></div>
+
+    <!-- USP-блок (крючки) -->
+    <div class="usp-block">
+        <p><strong>🎭</strong> <span>Устали от героев с картонными мотивациями? В «Моно-но аваре» вы проживёте путь сложного, глубокого злодея, чьи действия продиктованы экзистенциальной философией.</span></p>
+        <p><strong>📖</strong> <span>Ищете интеллектуальный вызов? Это поле битвы не на кулаках, а на идеях. Ваше оружие — цитаты Достоевского и Ницше в диалогах, от которых у оппонентов пойдёт кругом голова.</span></p>
+    </div>
+
+    <!-- основное описание игры (якорь about) -->
+    <div id="about">
+        <h2>✧ о чём игра ✧</h2>
+        <div style="background: #fff7ea; padding: 1.2rem 1.6rem; border-radius: 24px; border-left: 6px solid #b87c4a;">
+            <p style="font-size: 1.05rem;">
+                Психологический философский триллер. Игрок управляет антагонистом — студентом <strong>Арсением Соболевым</strong>, который стремится «освободить» других студентов от их иллюзий (любовь, дружба, вера в искусство) через диалоги и манипуляции, <strong>без физического насилия</strong>. 
+                Действие происходит в колледже МВЕК. Ваш выбор влияет на судьбы персонажей и приводит к одному из трёх финалов.
+            </p>
+        </div>
+    </div>
+
+    <!-- персонажи (якорь characters) -->
+    <h2 id="characters">✦ действующие лица ✦</h2>
+    <div class="characters-grid">
+        <div class="character-card">
+            <div class="char-name">Арсений Соболев</div>
+            <div class="char-role">Протагонист / антагонист</div>
+            <div class="char-desc">«Доказать, что все ценности — иллюзия. Скрыто — страх быть отвергнутым.»</div>
+        </div>
+        <div class="character-card">
+            <div class="char-name">Эмилия Вебер</div>
+            <div class="char-role">«Роза»</div>
+            <div class="char-desc">Найти себя в искусстве и любви. Наивный художник, чья вера в прекрасное — мишень Арсения.</div>
+        </div>
+        <div class="character-card">
+            <div class="char-name">Глеб Воронцов</div>
+            <div class="char-role">«Король»</div>
+            <div class="char-desc">Удержать власть и уважение отца. Председатель студсовета, одержимый статусом.</div>
+        </div>
+        <div class="character-card">
+            <div class="char-name">София Лин</div>
+            <div class="char-role">«Фонарщик»</div>
+            <div class="char-desc">Исполнить долг перед матерью. Библиотекарь-волонтёр, которая служит привычке, а не мечте.</div>
+        </div>
+        <div class="character-card">
+            <div class="char-name">Психолог («Змей»)</div>
+            <div class="char-role">Наблюдатель / противник</div>
+            <div class="char-desc">Раскрыть истинную природу Арсения и противостоять ему силой диалога.</div>
+        </div>
+    </div>
+
+    <!-- основной оффер + цена (якорь purchase) -->
+    <div id="purchase" style="background: #f2e6d2; border-radius: 32px; padding: 1.5rem; margin: 2rem 0; text-align: center; border: 1px solid #dbbb8b; box-shadow: inset 0 0 0 2px #fff5e8, 0 6px 14px rgba(0,0,0,0.08);">
+        <div style="font-size: 1.7rem; font-weight: 700;">❝ купить сейчас в Steam ❞</div>
+        <div style="font-size: 2.2rem; font-weight: 800; color: #8b5a2b; margin: 0.3rem 0;">400 ₽</div>
+        <a href="#" class="steam-button" id="steamBtn2" style="margin-top: 0.4rem;">➕ Добавить в библиотеку</a>
+        <div class="wood-divider" style="margin: 1rem 0;"></div>
+        <div style="font-size: 0.9rem;">✔ уникальная история от лица антагониста | 3 концовки | более 10 глав | ручная графика в стиле сэйнэн</div>
+    </div>
+
+    <!-- системные требования (якорь specs) -->
+    <h2 id="specs">⚙ системные требования</h2>
+    <div class="specs">
+        <table>
+            <tr><th>ОС</th><td>Windows 10 (64-bit)</td></tr>
+            <tr><th>Процессор</th><td>Intel Core i3-2100 / AMD FX-6300</td></tr>
+            <tr><th>Оперативная память</th><td>4 GB</td></tr>
+            <tr><th>Видеокарта</th><td>Intel HD Graphics 4400 / NVIDIA GT 710</td></tr>
+            <tr><th>Место на диске</th><td>4 GB (HDD)</td></tr>
+            <tr><th>Разрешение</th><td>1280x720</td></tr>
+        </table>
+        <p style="margin-top: 0.8rem; font-size: 0.75rem;">* поддержка клавиатуры и мыши, full HD (1920x1080) рекомендовано.</p>
+    </div>
+
+    <!-- дополнительные карточки (атмосферные блоки) -->
+    <div style="margin: 2rem 0; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+        <div style="flex:1; background: #f6eddb; border-radius: 28px; padding: 1rem; text-align: center; border: 1px solid #e2ca9c;">
+            <div style="font-size: 2.2rem;">🎭</div>
+            <div style="font-weight: bold; font-size: 1.1rem;">«Сверхчеловек или пустота?»</div>
+            <div style="font-size: 0.85rem;">Три финала, где каждый выбор — моральный эксперимент.</div>
+        </div>
+        <div style="flex:1; background: #f6eddb; border-radius: 28px; padding: 1rem; text-align: center; border: 1px solid #e2ca9c;">
+            <div style="font-size: 2.2rem;">📜</div>
+            <div style="font-weight: bold; font-size: 1.1rem;">Диалоги-оружие</div>
+            <div style="font-size: 0.85rem;">В духе Достоевского и Ницше — манипуляция словом.</div>
+        </div>
+        <div style="flex:1; background: #f6eddb; border-radius: 28px; padding: 1rem; text-align: center; border: 1px solid #e2ca9c;">
+            <div style="font-size: 2.2rem;">🎨</div>
+            <div style="font-weight: bold; font-size: 1.1rem;">Рисованная эстетика</div>
+            <div style="font-size: 0.85rem;">Карандаш + акварель, атмосфера старой книги</div>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 «Моно-но аваре: Сад расходящихся тропок». Все права защищены.<br>
+        Международный восточноевропейский колледж (МВЕК) — вымышленное место. В игре отсутствуют сцены насилия.
+    </footer>
+</div>
+
+<script>
+    const steamBtns = document.querySelectorAll('#steamFakeBtn, #steamBtn2');
+    steamBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('[Демо] Благодарим за интерес! В скором времени игра выйдет в Steam. Ориентировочная цена — 400 ₽. Следите за новостями.');
+        });
+    });
+
+    // плавная прокрутка для якорных ссылок (шапка)
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                const offset = 80; // учитываем высоту sticky шапки
+                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    console.log('Сайт — фон тёмное дерево, контент на пергаменте, добавлена шапка с навигацией');
+</script>
+</body>
+</html>
